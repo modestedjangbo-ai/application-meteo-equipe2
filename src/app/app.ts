@@ -1,32 +1,48 @@
-import { Component, OnInit, signal } from '@angular/core'; // On ajoute signal
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { WeatherService } from './services/weather'; 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule],
-  template: `
-    <div style="text-align:center; padding: 50px; font-family: Arial, sans-serif;">
-      <h1 style="color: #333;">🌦️ Météo actuelle - Parakou</h1>
-      <p style="font-size: 3em; font-weight: bold; color: #007bff;">{{ temperature() }}</p>
-    </div>
-  `,
+  imports: [CommonModule, FormsModule],
+  templateUrl: './app.html', // On pointe vers ton fichier HTML externe
+  styleUrl: './app.css'
 })
 export class AppComponent implements OnInit {
-  // On crée un signal qui contient 'Chargement...' par défaut
+  // Définition des signaux
   temperature = signal<string>('Chargement...');
+  villeRecherchee = signal<string>('');
+  
+  // On ajoute cette variable pour stocker toutes les données météo (vent, humidité, etc.)
+  weatherData: any;
 
   constructor(private weatherService: WeatherService) {}
 
   ngOnInit() {
-    this.weatherService.getWeather('Parakou').subscribe({
+    // Ville par défaut au lancement
+    this.lancerRecherche('');
+  }
+
+  // La fonction pour ton bouton ou ton initialisation
+  chercherMeteo() {
+    const ville = this.villeRecherchee();
+    if (ville) {
+      this.lancerRecherche(ville);
+    }
+  }
+
+  // Fonction réutilisable pour appeler l'API
+  lancerRecherche(ville: string) {
+    this.weatherService.getWeather(ville).subscribe({
       next: (data: any) => {
-        // On met à jour le signal avec .set()
-        this.temperature.set(data.main.temp + '°C');
+        this.weatherData = data; // Stocke les données complètes
+        this.temperature.set(data.main.temp + '°C'); // Met à jour le signal température
       },
       error: (err: any) => {
-        this.temperature.set('Erreur de connexion');
+        console.error(err);
+        this.temperature.set('');
       }
     });
   }
