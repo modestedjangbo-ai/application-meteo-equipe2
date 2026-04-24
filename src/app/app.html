@@ -1,19 +1,55 @@
-<div style="text-align:center; padding: 50px; font-family: Arial, sans-serif;">
-      <h1 style="color: #333;">🌦️ Météo actuelle</h1>
-      <div style="margin-bottom: 20px;">
-         <div class="search-box">
-  <input
-    type="text"
-    [ngModel]="villeRecherchee()"
-    (ngModelChange)="villeRecherchee.set($event)"
-    placeholder="Entrez une ville..."
-  >
-  
-  <button (click)="chercherMeteo()">Chercher</button>
-</div>
-        
-           <p>
-          {{ villeRecherchee()}}</p>
-</div>
-      <p style="font-size: 3em; font-weight: bold; color: #007bff;">{{ temperature() }}</p>
+<div class="weather-bg d-flex align-items-center justify-content-center">
+
+  <div class="weather-card shadow-lg p-4">
+
+    <h1 class="text-center mb-4 text-white">
+      <i class="bi bi-cloud-sun-fill"></i>
+      Weather App
+    </h1>
+
+    <!-- SEARCH -->
+    <div class="input-group mb-4">
+      <input
+        type="text"
+        class="form-control"
+        [ngModel]="villeRecherchee()"
+        (ngModelChange)="villeRecherchee.set($event)"
+        placeholder="Enter a city..."
+      />
+      
+      <button class="btn btn-warning" (click)="chercherMeteo()"> 
+        <i class="bi bi-search"></i>
+      </button>
     </div>
+
+    <!-- RESULT -->
+    <div *ngIf="weatherData" class="text-center text-white">
+
+      <h2 class="city">{{ weatherData.name }}</h2>
+
+      <!-- ICON -->
+      <div class="weather-icon">
+        <i [ngClass]="getWeatherIcon()"></i>
+      </div>
+
+      <div class="temp">{{ temperature() }}</div>
+
+      <!-- DETAILS -->
+      <div class="row mt-4">
+        <div class="col">
+          <i class="bi bi-droplet"></i>
+          <p>Humidity</p>
+          <strong>{{ weatherData.main.humidity }}%</strong>
+        </div>
+
+        <div class="col">
+          <i class="bi bi-wind"></i>
+          <p>Wind</p>
+          <strong>{{ weatherData.wind.speed }} km/h</strong>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

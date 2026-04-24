@@ -46,4 +46,20 @@ export class AppComponent implements OnInit {
       }
     });
   }
-}
+  getWeatherIcon() {
+    if (!this.weatherData || !this.weatherData.weather) return 'bi-cloud';
+    
+    // On récupère le "main" (ex: "Clear", "Clouds", "Rain")
+    const condition = this.weatherData.weather[0].main;
+
+    switch (condition) {
+      case 'Clear': return 'bi-sun-fill text-warning';
+      case 'Clouds': return 'bi-cloud-fill text-light';
+      case 'Rain': return 'bi-cloud-rain-fill text-info';
+      case 'Drizzle': return 'bi-cloud-drizzle-fill text-info';
+      case 'Thunderstorm': return 'bi-cloud-lightning-fill text-warning';
+      case 'Snow': return 'bi-snow text-white';
+      default: return 'bi-cloud';
+    }
+  }
+  }
