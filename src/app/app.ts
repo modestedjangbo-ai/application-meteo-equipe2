@@ -14,15 +14,16 @@ export class AppComponent implements OnInit {
   // Définition des signaux
   temperature = signal<string>('Chargement...');
   villeRecherchee = signal<string>('');
+  erreurVille = signal('');
   
   // On ajoute cette variable pour stocker toutes les données météo (vent, humidité, etc.)
-  weatherData: any;
+  weatherData: any = null;
 
   constructor(private weatherService: WeatherService) {}
 
   ngOnInit() {
     // Ville par défaut au lancement
-    this.lancerRecherche('');
+    this.lancerRecherche('Cotonou');
   }
 
   // La fonction pour ton bouton ou ton initialisation
@@ -39,10 +40,13 @@ export class AppComponent implements OnInit {
       next: (data: any) => {
         this.weatherData = data; // Stocke les données complètes
         this.temperature.set(data.main.temp + '°C'); // Met à jour le signal température
+        this.erreurVille.set(''); // Efface l'erreur
       },
       error: (err: any) => {
         console.error(err);
         this.temperature.set('');
+        this.weatherData = null;
+        this.erreurVille.set('Ville introuvable.');
       }
     });
   }

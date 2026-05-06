@@ -4,7 +4,7 @@
 
     <h1 class="text-center mb-4 text-white">
       <i class="bi bi-cloud-sun-fill"></i>
-      Weather App
+      Météo du jour
     </h1>
 
     <!-- SEARCH -->
@@ -14,9 +14,13 @@
         class="form-control"
         [ngModel]="villeRecherchee()"
         (ngModelChange)="villeRecherchee.set($event)"
-        placeholder="Enter a city..."
+        placeholder="Entrer votre ville..."
       />
-      
+      <!-- ALERTE VILLE INTROUVABLE -->
+    <div *ngIf="erreurVille()" class="alert alert-danger mt-3 text-center" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+    {{ erreurVille() }}
+</div>
       <button class="btn btn-warning" (click)="chercherMeteo()"> 
         <i class="bi bi-search"></i>
       </button>
@@ -32,19 +36,27 @@
         <i [ngClass]="getWeatherIcon()"></i>
       </div>
 
-      <div class="temp">{{ temperature() }}</div>
+      <div class="temp">
+  <i class="bi bi-thermometer-half me-2"></i>
+  {{ temperature() }}
+</div>
 
       <!-- DETAILS -->
       <div class="row mt-4">
         <div class="col">
           <i class="bi bi-droplet"></i>
-          <p>Humidity</p>
+          <p>Humidité</p>
           <strong>{{ weatherData.main.humidity }}%</strong>
         </div>
 
         <div class="col">
+  <i class="bi bi-thermometer"></i>
+  <p>Ressenti</p>
+  <strong>{{ weatherData.main.feels_like }}°C</strong>
+</div>
+        <div class="col">
           <i class="bi bi-wind"></i>
-          <p>Wind</p>
+          <p>Vent</p>
           <strong>{{ weatherData.wind.speed }} km/h</strong>
         </div>
       </div>
