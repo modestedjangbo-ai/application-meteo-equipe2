@@ -27,6 +27,10 @@
   background: rgba(255,255,255,0.1);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
+  position: relative;
+  z-index: 1;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 /* Ville */
@@ -55,4 +59,11 @@
 /* Détails */
 .row i {
   font-size: 25px;
+}
+ /*Style pour les prévisions*/
+.forecast-day {
+  background: rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 8px 6px;
+  min-width: 55px;
 }

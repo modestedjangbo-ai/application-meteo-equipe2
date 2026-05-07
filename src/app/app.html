@@ -59,9 +59,33 @@
           <p>Vent</p>
           <strong>{{ weatherData.wind.speed }} km/h</strong>
         </div>
+        
       </div>
+<!-- LEVER ET COUCHER DU SOLEIL -->
+<div class="row mt-3 text-white text-center">
+  <div class="col">
+    <i class="bi bi-sunrise-fill text-warning"></i>
+    <p class="mb-0">Lever</p>
+    <strong>{{ sunrise }}</strong>
+  </div>
+  <div class="col">
+    <i class="bi bi-sunset-fill text-danger"></i>
+    <p class="mb-0">Coucher</p>
+    <strong>{{ sunset }}</strong>
+  </div>
+</div>
 
+<!-- PRÉVISIONS 5 JOURS -->
+<div class="mt-4">
+  <h6 class="text-white text-center mb-3">Prévisions 5 jours</h6>
+  <div class="d-flex justify-content-between">
+    <div *ngFor="let day of forecastData" class="text-center text-white forecast-day">
+      <p class="mb-1">{{ getJour(day.dt_txt) }}</p>
+      <i [ngClass]="getIconFromForecast(day)" style="font-size: 24px;"></i>
+      <p class="mb-0 mt-1"><strong>{{ arrondir(day.main.temp) }}°C</strong></p>
     </div>
-
+  </div>
+</div>
+    </div>
   </div>
 </div>
